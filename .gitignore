@@ -1,0 +1,4 @@
+.DS_Store
+/app/tmp/logs/error.log
+/app/tmp/cache/models/*
+/app/tmp/cache/persistent/*

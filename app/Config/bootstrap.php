@@ -107,3 +107,18 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+// define PHP path
+switch(php_uname('n')) {
+	
+	// production settings
+	default:
+		define('PATH_TO_PHP_CLI', 'php');
+	break;
+	
+	// chris settings
+	case 'ed-chris.home':
+	case 'ed-chris.local':
+		define('PATH_TO_PHP_CLI', '/Applications/MAMP/bin/php/php5.3.14/bin/php');
+	break;
+}

@@ -33,7 +33,23 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 2);
+
+	switch(php_uname('n')) {
+
+		// production settings
+		default:
+		Configure::write('Server.base_url', 'something.ly');
+		Configure::write('debug', 0);				
+		break;	
+
+		// local settings
+		case 'ed-chris.local':
+		case 'ed-chris.home':
+		Configure::write('Server.base_url', 'localhost.short');
+		Configure::write('Cache.disable', true);
+		Configure::write('debug', 2);
+		break;
+	}
 
 /**
  * Configure the Error handler used to handle errors for your application. By default
@@ -154,12 +170,6 @@
 	//Configure::write('Routing.prefixes', array('admin'));
 
 /**
- * Turn off all caching application-wide.
- *
- */
-	//Configure::write('Cache.disable', true);
-
-/**
  * Enable cache checking.
  *
  * If set to true, for view caching you must still use the controller
@@ -224,12 +234,12 @@
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
+	Configure::write('Security.salt', 'r6e1W4VDpIuZ0In74NrEr6e1W4VDpIuZ0In74NrE');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '76859309657453542496749683645');
+	Configure::write('Security.cipherSeed', '32591791910215666758325917');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
