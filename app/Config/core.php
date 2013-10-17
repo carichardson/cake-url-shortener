@@ -38,7 +38,7 @@
 
 		// production settings
 		default:
-		Configure::write('Server.base_url', 'something.ly');
+		Configure::write('Server.base_url', 'chrisrichardson.ca');
 		Configure::write('debug', 0);				
 		break;	
 
