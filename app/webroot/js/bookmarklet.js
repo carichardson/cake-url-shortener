@@ -3,7 +3,7 @@
 	// the minimum version of jQuery we want
 	var v = "1.9.0";
 
-	// check prior inclusion and version
+	// check prior jquery inclusion and version
 	if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
 		var done = false;
 		var script = document.createElement("script");

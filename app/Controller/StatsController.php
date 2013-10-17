@@ -9,10 +9,12 @@ class StatsController extends AppController {
 		)
 	);
 	
+	// paginate and show all short_urls
 	function index() {
 		$this->set('short_urls', $this->paginate());
 	}
 	
+	// gather some stats on a short_url
 	function view($code='') {
 		App::uses('Sanitize', 'Utility');
 		

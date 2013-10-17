@@ -4,6 +4,7 @@ App::uses('Model', 'Model');
 
 class AppModel extends Model {
 	
+	// generic function to generate a random string
 	function randomString($length = 6) {
 	    $characters = '0123456789abcdefghijklmnopqrstuvwxyz-_';
 	    $string = '';    
@@ -13,6 +14,7 @@ class AppModel extends Model {
 	    return $string;
 	}
 
+	// generic function to get the page title of a url
 	function getTitleForUrl($url) {
 		$result = '';
 		

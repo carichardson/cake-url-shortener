@@ -3,9 +3,13 @@ class ShortenController extends AppController {
 	var $name = 'Shorten';
 	var $uses = array('ShortUrl');
 
+	// page that lets users create short urls
 	function index() {
-		if(!empty($this->request->data)) {
+		
+		// check if correct post data is present
+		if(!empty($this->request->data['ShortUrl']['url'])) {
 			
+			// nicer, short variable to work with, for readability
 			$url = $this->request->data['ShortUrl']['url'];
 			
 			// make sure url prefaced with http://
@@ -13,16 +17,22 @@ class ShortenController extends AppController {
 				$url = 'http://' . $url;
 			}
 			
-			// get new code
+			// sanitize and try given code or create new one
 			App::uses('Sanitize', 'Utility');
 			$code = $this->ShortUrl->generateCode(Sanitize::paranoid($this->request->data['ShortUrl']['code'], array('-', '_')));
 			
+			// create the short url
 			$this->ShortUrl->create(array('code' => $code, 'url' => $url));
 			
+			// test that data is valid
 			if($this->ShortUrl->validates()) {
 				
 				$this->ShortUrl->save();
+				
+				// set short url to present to user
 				$this->set('shortened', Configure::read('Server.base_url').'/'.$code);
+				
+				// Retrieve link title for social sharing
 				$this->set('title', $this->ShortUrl->getTitleForUrl($url));
 			}
 		}

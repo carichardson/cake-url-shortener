@@ -34,6 +34,7 @@
  * In development mode, you need to click the flash message to continue.
  */
 
+	// configuration based on php_uname, useful for when running scripts from cron
 	switch(php_uname('n')) {
 
 		// production settings
@@ -51,6 +52,7 @@
 		break;
 	}
 	
+	// list of invalid short codes, those used by controller names
 	Configure::write('InvalidCodes', array('api', 'redirect', 'shorten', 'stats'));
 
 /**
@@ -281,7 +283,7 @@
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+	date_default_timezone_set('America/Vancouver');
 
 /**
  *
@@ -364,7 +366,7 @@ if (Configure::read('debug') > 0) {
 }
 
 // Prefix each application on the same server with a different string, to avoid Memcache and APC conflicts.
-$prefix = 'myapp_';
+$prefix = 'chris_short_';
 
 /**
  * Configure the cache used for general framework caching. Path information,

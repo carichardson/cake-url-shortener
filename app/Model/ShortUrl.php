@@ -2,6 +2,7 @@
 class ShortUrl extends AppModel {
 	var $name = 'ShortUrl';
 	
+	// validatio criteria
 	var $validate = array(
 	    'url' => array(
 	        'rule' => array('url', true),
@@ -25,6 +26,7 @@ class ShortUrl extends AppModel {
 		)
 	);
 	
+	// validation function to ensure code is not in reserved list
 	function reservedCodes($data) {
 		if(in_array($data['code'], Configure::read('InvalidCodes'))) {
 			return false;
@@ -33,14 +35,17 @@ class ShortUrl extends AppModel {
 		return true;
 	}
 
+	// validation function to check that code only alphanumeric and _-
 	function alphaNumericDashUnderscore($data) {
 		return preg_match('|^[0-9a-zA-Z_-]*$|', $data['code']);
 	}
 	
+	// update the hit count of a short url
 	function updateHitCount($short_url_id){
 		$this->query('UPDATE short_urls SET hit_count = hit_count + 1, modified = NOW() WHERE id='.$short_url_id);
 	}
 	
+	// generate a short code, make sure it does not already exist
 	function generateCode($code='') {
 		
 		if(empty($code)) {

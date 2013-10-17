@@ -3,6 +3,7 @@ class ApiController extends AppController {
 	var $name = 'Api';
 	var $uses = array('ShortUrl');
 
+	// api endpoint for urls
 	function url() {
 		$response = array('success' => false, 'error' => 'No data provided.');
 	
@@ -27,11 +28,12 @@ class ApiController extends AppController {
 				}
 			}
 		}
-		$this->log($response);
+
 		echo json_encode($response);
 		exit;
 	}
 	
+	// logic to handle shorten_url api action for url endpoints
 	function _shorten_url() {
 		$response = array('success' => false);
 		
@@ -65,6 +67,7 @@ class ApiController extends AppController {
 		return $response;
 	}
 	
+	// logic to handle retrieve_url api action for url endpoints
 	function _retrieve_url() {
 		$response = array('success' => false);
 		
