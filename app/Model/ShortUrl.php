@@ -11,21 +11,30 @@ class ShortUrl extends AppModel {
 	    ),
 		'code' => array(
 			'between' => array(
-				'rule'    => array('between', 1, 10),
-				'message' => 'Extension must be ten characters of less.'
+				'rule'		=> array('between', 1, 10),
+				'message'	=> 'Extension must be ten characters of less.'
 			),
 			'characters' =>	array(
-				'rule'    => 'alphaNumericDashUnderscore',
-				'message' => 'Extension can only contain letters, numbers, dash and underscore.'
+				'rule'		=> 'alphaNumericDashUnderscore',
+				'message'	=> 'Extension can only contain letters, numbers, dash and underscore.'
+			),
+			'reserved' => array(
+				'rule'    => 'reservedCodes',
+				'message'	=> 'This code is unavailable because it is reserved.'
 			)
 		)
 	);
+	
+	function reservedCodes($data) {
+		if(in_array($data['code'], Configure::read('InvalidCodes'))) {
+			return false;
+		}
+		
+		return true;
+	}
 
-	function alphaNumericDashUnderscore($check) {
-		$value = array_values($check);
-		$value = $value[0];
-
-		return preg_match('|^[0-9a-zA-Z_-]*$|', $value);
+	function alphaNumericDashUnderscore($data) {
+		return preg_match('|^[0-9a-zA-Z_-]*$|', $data['code']);
 	}
 	
 	function updateHitCount($short_url_id){

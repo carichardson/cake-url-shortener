@@ -50,6 +50,8 @@
 		Configure::write('debug', 2);
 		break;
 	}
+	
+	Configure::write('InvalidCodes', array('api', 'redirect', 'shorten', 'stats'));
 
 /**
  * Configure the Error handler used to handle errors for your application. By default
