@@ -8,19 +8,24 @@ class ShortUrlTest extends CakeTestCase {
 	}
 
 	public function testGenerateCode() {
+		
+		// test that a code is generated when no code provided
 		$code = $this->ShortUrl->generateCode();
 		$this->assertTrue(!empty($code));
 		
+		// test that a code is generated when a code is provided
 		$code = $this->ShortUrl->generateCode('testcode');
 		$this->assertTrue(!empty($code));
 	}
 	
 	function testAlphaNumericDashUnderscore() {
-		$test_data['code'] = '#&*$^%#*^&%';
 		
+		// test that non alphanumeric codes fail
+		$test_data['code'] = '#&*$^%#*^&%';
 		$result = $this->ShortUrl->alphaNumericDashUnderscore($test_data);
 		$this->assertFalse(!empty($result));
 		
+		// test that alphanumeric code succeeds
 		$test_data['code'] = 'valid121';
 		$result = $this->ShortUrl->alphaNumericDashUnderscore($test_data);
 		$this->assertTrue(!empty($result));
@@ -28,10 +33,12 @@ class ShortUrlTest extends CakeTestCase {
 	
 	function testReservedCodes() {
 		
+		// test that reserved code not allowed
 		$test_data['code'] = 'api';
 		$result = $this->ShortUrl->reservedCodes($test_data);
 		$this->assertFalse(!empty($result));
 		
+		// test that non-reserved code passes
 		$test_data['code'] = 'chris';
 		$result = $this->ShortUrl->reservedCodes($test_data);
 		$this->assertTrue(!empty($result));

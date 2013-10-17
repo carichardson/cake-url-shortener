@@ -87,32 +87,4 @@ class ApiController extends AppController {
 		
 		return $response;
 	}
-	
-	function test() {
-		
-		// build api request data
-		/*$data = array(
-			'action' => 'shorten_url',
-			'url' => 'http://supertesturl.com',
-			'timestamp' => (string)time()
-		);*/
-		
-		// build api request data
-		$data = array(
-			'action' => 'retrieve_url',
-			'code' => 'beer',
-			'timestamp' => (string)time()
-		);
-		
-		// curl request to api server
-		$ch = curl_init('http://localhost.short/api/url');
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$response = json_decode(curl_exec($ch), true);
-		curl_close($ch);
-		
-		pr($response);
-		exit;
-	}
 }
