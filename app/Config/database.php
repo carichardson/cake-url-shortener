@@ -28,11 +28,13 @@ class DATABASE_CONFIG {
 	{
 		switch(php_uname('n')) {
 			default:
+			$this->test = $this->default;
 			$this->default = $this->default;
 			break;
 			case 'ed-chris.local':
 			case 'ed-chris.home':
 			$this->default = $this->local;
+			$this->test = $this->default;
 			break;
 		}
 	}

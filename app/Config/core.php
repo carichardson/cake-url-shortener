@@ -39,7 +39,7 @@
 		// production settings
 		default:
 		Configure::write('Server.base_url', 'chrisrichardson.ca');
-		Configure::write('debug', 0);				
+		Configure::write('debug', 2);				
 		break;	
 
 		// local settings
