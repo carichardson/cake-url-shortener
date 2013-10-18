@@ -15,9 +15,9 @@ Cake provides light integration with PHPUnit, which I used to create some rudime
 
 ### API
 
-API Endpoint: http://chrisrichardson.ca/api/url
+<strong>API Endpoint:</strong> http://chrisrichardson.ca/api/url  
 
-<strong>Action:</strong> shorten_url  
+#### Action: shorten_url  
 
 <strong>Description:</strong> Post a long url to receive a shortened url.  
 
@@ -50,7 +50,9 @@ Sample PHP code:
 	curl_close($ch);
 ```
 
-<strong>Action:</strong> retrieve_url  
+---
+
+#### Action: retrieve_url  
 
 <strong>Description:</strong> Post a short code to receive the long url.  
 
