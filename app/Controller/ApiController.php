@@ -16,11 +16,11 @@ class ApiController extends AppController {
 				switch ($this->request->data['action']) {
 					
 					case 'shorten_url':
-						$response = $this->_shorten_url();
+						$response = $this->_shorten_url($this->request->data);
 					break;
 					
 					case 'retrieve_url':
-						$response = $this->_retrieve_url();
+						$response = $this->_retrieve_url($this->request->data);
 					break;
 					
 					default;
@@ -34,13 +34,13 @@ class ApiController extends AppController {
 	}
 	
 	// logic to handle shorten_url api action for url endpoints
-	function _shorten_url() {
+	function _shorten_url($request) {
 		$response = array('success' => false);
 		
-		if(!empty($this->request->data['url'])) {
+		if(!empty($request['url'])) {
 			
 			// extract url and make sure it is formatted with http
-			$url = $this->request->data['url'];
+			$url = $request['url'];
 			if( !(strpos($url, 'https://') === 0 OR strpos($url, 'http://') === 0) ) {
 				$url = 'http://' . $url;
 			}
@@ -68,13 +68,13 @@ class ApiController extends AppController {
 	}
 	
 	// logic to handle retrieve_url api action for url endpoints
-	function _retrieve_url() {
+	function _retrieve_url($request) {
 		$response = array('success' => false);
 		
-		if(!empty($this->request->data['code'])) {
+		if(!empty($request['code'])) {
 
 			// create new code and make sure url validates
-			$short_url = $this->ShortUrl->findByCode($this->request->data['code']);
+			$short_url = $this->ShortUrl->findByCode($request['code']);
 			
 			if(!empty($short_url)) {
 
@@ -91,25 +91,67 @@ class ApiController extends AppController {
 		return $response;
 	}
 	
-	function test() {
+	// zeromq api endpoint for urls
+	function zeromq_url() {
+		$response = array('success' => false, 'error' => 'No data provided.');
+	
+		// check for post data
+		if(!empty($this->request->data)) {
+			
+			// create ZMQ context
+			$context = new ZMQContext();
 
+			// socket to connect to zmq server
+			$requester = new ZMQSocket($context, ZMQ::SOCKET_REQ);
+			$requester->connect("tcp://localhost:5555");
+			
+			$requester->send(json_encode($this->request->data));
+			$response = $requester->recv();
+		}
+
+		echo json_encode($response);
+		exit;
+	}
+	
+	// function to create zeromq listener
+	function zeromq_server() {
+
+		// create ZMQ context
 		$context = new ZMQContext(1);
 
-		//  Socket to talk to clients
+		// create socket to receive client requests
 		$responder = new ZMQSocket($context, ZMQ::SOCKET_REP);
-		$responder->bind("tcp://*:5555");
+		$responder->bind("tcp://localhost:5555");
 
 		while (true) {
+			
 		    //  Wait for next request from client
 		    $request = $responder->recv();
-		    printf ("Received request: [%s]\n", $request);
+		    $request = json_decode($request, true);
 
-		    //  Do some 'work'
-		    sleep (1);
-
-		    //  Send reply back to client
-		    $responder->send("World");
+		    // set default response
+			$response = array('success' => false);
+			
+			// check that action is set
+			if(!empty($request['action'])) {
+				
+				switch ($request['action']) {
+					
+					case 'shorten_url':
+						$response = $this->_shorten_url($request);
+					break;
+					
+					case 'retrieve_url':
+						$response = $this->_retrieve_url($request);
+					break;
+					
+					default;
+						$response['error'] = 'No api action provided.';
+				}
+			}
+			
+		    // send response back to client
+		    $responder->send($response);
 		}
-		exit;
 	}
 }
