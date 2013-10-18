@@ -17,10 +17,10 @@ Cake provides light integration with PHPUnit, which I used to create some rudime
 
 API Endpoint: http://chrisrichardson.ca/api/url
 
-Action: shorten_url
-Description: Post a long url to receive a shortened url.
-Method: POST
-Required Parameter: url - a valid url to shorten
+<strong>Action:</strong> shorten_url
+<strong>Description:</strong> Post a long url to receive a shortened url.
+<strong>Method:</strong> POST
+<strong>Required Parameter:</strong> url - a valid url to shorten
 
 Sample response:
 
@@ -46,10 +46,14 @@ Sample PHP code:
 	curl_close($ch);
 ```
 
-Action: retrieve_url
-Description: Post a short code to receive the long url.
-Method: POST
-Required Parameter: code - code for a shortened url
+<strong>Action:</strong> retrieve_url
+
+<strong>Description:</strong> Post a short code to receive the long url.
+
+<strong>Method:</strong> POST
+
+<strong>Required Parameter:</strong> code - code for a shortened url
+
 
 Sample Response:
 
